@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'birthday',
     ];
 
     /**
@@ -37,6 +37,10 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+	protected $dates= [
+		'birthday',
+	];
+
 
 	public function articles()
 	{
@@ -47,4 +51,8 @@ class User extends Authenticatable
 		return $this->hasMany(Comment::class);
 	}
 
+	public function getAgeAttribute()
+	{
+		return $this->birthday->age;
+	}
 }

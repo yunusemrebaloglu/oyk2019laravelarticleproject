@@ -8,6 +8,8 @@
                 <div class="card-header">You Articles
 					<a class="btn btn-primary btn-sm float-right " href="{{route('article.create')}}">New article</a>
 				</div>
+{{request()->user()->age}}
+{{Auth::user()->age}}
 
                 <div class="card-body">
 					@foreach($articles as $article)
@@ -29,6 +31,7 @@
                 </div>
 				<div class="card-footer">
 
+					{{request()->feyzal}}
 				</div>
             </div>
         </div>

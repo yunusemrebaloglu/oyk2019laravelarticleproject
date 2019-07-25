@@ -19,7 +19,9 @@ Route::get('/', 'ArticleController@index');
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('checkage');
+
+Route::get('/showWeather', 'HomeController@showWeather')->name('showWeather');
 // Route::get('/home', 'ArticleController@index')->name('home');
 
 Route::get('/articles/new', 'ArticleController@create')->middleware('auth')->name('article.create');

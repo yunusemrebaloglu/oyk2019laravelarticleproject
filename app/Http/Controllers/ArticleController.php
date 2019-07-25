@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Article;
 use App\Comment;
 use App\Tag;
+use App\Helpers\Mahmut ;
 
 
 class ArticleController extends Controller
@@ -16,9 +17,10 @@ class ArticleController extends Controller
 		return view('article.create');
 	}
 
-	public function index(Article $article)
+	public function index(Mahmut $mahmut,Article $article)
 	{
-
+		dd($mahmut);
+		return $mahmut->konus();
 		$articles = $article->latest()->paginate(4);
 		return view('article.index',compact('articles'));
 	}
