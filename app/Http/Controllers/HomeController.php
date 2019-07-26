@@ -3,12 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Cmfcmf\OpenWeatherMap;
-use Cmfcmf\OpenWeatherMap\Exception as OWMException;
-use Http\Factory\Guzzle\RequestFactory;
-use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
-
-
+use Weather;
 
 class HomeController extends Controller
 {
@@ -35,7 +30,7 @@ class HomeController extends Controller
 		return view('home', compact('articles'));
 	}
 
-	public function showWeather(\Cmfcmf\OpenWeatherMap $owm)
+	public function showWeather(Weather $owm)
 	{
 
 		$weather = $owm->getWeather('Bolu', 'metric', 'tr');

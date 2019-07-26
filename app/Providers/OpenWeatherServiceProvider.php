@@ -3,11 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Cmfcmf\OpenWeatherMap;
-use Cmfcmf\OpenWeatherMap\Exception as OWMException;
-// use Http\Factory\Guzzle\RequestFactory;
-// use Http\Adapter\Guzzle6\Client as GuzzleAdapter;
 
+use Cmfcmf\OpenWeatherMap as OpenWeatherMap ;
 
 class OpenWeatherServiceProvider extends ServiceProvider
 {
@@ -19,12 +16,9 @@ class OpenWeatherServiceProvider extends ServiceProvider
 	public function register()
 	{
 
-		$this->app->singleton('Cmfcmf\OpenWeatherMap', function ($mahmut){
-			return new \Cmfcmf\OpenWeatherMap(config('services.openweather.key'), $mahmut->make('Http\Adapter\Guzzle6\Client'), $mahmut->make('Http\Factory\Guzzle\RequestFactory'));
-			return new \Cmfcmf\OpenWeatherMap($mahmut->make('Illuminate\Http\Request'), "sdasddsaadsasd");
-		});
 
 
+		// return new \Cmfcmf\OpenWeatherMap($mahmut->make('Illuminate\Http\Request'), "sdasddsaadsasd");
 
 		// $httpRequestFactory = new RequestFactory();
 		// $httpClient = GuzzleAdapter::createWithConfig([]);
@@ -41,6 +35,13 @@ class OpenWeatherServiceProvider extends ServiceProvider
 	*/
 	public function boot()
 	{
-		//
+
+		$this->app->singleton('Cmfcmf\OpenWeatherMap', function ($mahmut){
+
+			return new OpenWeatherMap(config('services.openweather.key'), $mahmut->make('Http\Adapter\Guzzle6\Client'), $mahmut->make('Http\Factory\Guzzle\RequestFactory'));
+
+
+		});
+
 	}
 }
