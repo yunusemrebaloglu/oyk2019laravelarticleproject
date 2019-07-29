@@ -50,6 +50,7 @@ Route::prefix('user')->middleware('auth')->name('users.')->group(function () {
 
 
 	Route::get('/', 'UserController@index')->name('index');
+
 	Route::get('/comments/articles', 'UserController@commentedArticles')->name('commentedArticles');
 
 	Route::get('/article/{user}', 'UserController@article')->name('article');
@@ -62,7 +63,7 @@ Route::prefix('user')->middleware('auth')->name('users.')->group(function () {
 	Route::get('/profile/follower/{user}', 'UserController@follower')->name('follower');
 
 	Route::get('/profile/unfollower/{user}', 'UserController@unfollower')->name('unfollower');
-
+	
 	Route::get('/{user}/follow/{fallow}', 'UserController@followlist')->name('followList');
 
 

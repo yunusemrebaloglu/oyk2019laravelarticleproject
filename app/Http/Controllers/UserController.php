@@ -72,7 +72,7 @@ class UserController extends Controller
 
 	public function notificationRead($notification)
 	{
-		$notification = Auth::user()->notifications()->where('id',$notification)->first();
+		$notification = Auth::user()->notifications->find($notification);
 		// $notification = Auth::user()->notifications();
 		// dd($notification);
 		// dd($notification->id);
