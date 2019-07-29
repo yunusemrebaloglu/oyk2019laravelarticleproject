@@ -8,14 +8,18 @@
 				<div class="card-header">Users</div>
 
 				<div class="card-body">
-					<div class="list-group">
+					<div class="row">
 						@foreach($users as $user)
-						<a href="{{route('users.article', $user->id)}}"class="list-group-item list-group-item-action">{{$user->name}} Yazılarını Göster</a>
+						<div class=" col-md-6 ">
+							<a href="{{route('users.article', $user)}}"class="list-group-item list-group-item-action">{{$user->name}} Yazılarını Göster</a>
+						</div>
+						<div class="col-md-6  ">
+							<a href="{{route('users.profile', $user)}}"class="list-group-item list-group-item-action">{{$user->name}} Profilini Göster</a>
+						</div>
 						@endforeach
 					</div>
 				</div>
 				<div class="card-footer">
-					{{ $users->links() }}
 				</div>
 			</div>
 		</div>

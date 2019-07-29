@@ -7,6 +7,7 @@ use App\Article;
 use App\Comment;
 use App\Tag;
 use App\Helpers\Mahmut ;
+use Illuminate\Support\Facades\Storage;
 
 
 class ArticleController extends Controller
@@ -19,8 +20,8 @@ class ArticleController extends Controller
 
 	public function index(Mahmut $mahmut,Article $article)
 	{
-		dd($mahmut);
-		return $mahmut->konus();
+		// dd($mahmut);
+		// return $mahmut->konus();
 		$articles = $article->latest()->paginate(4);
 		return view('article.index',compact('articles'));
 	}
@@ -30,12 +31,22 @@ class ArticleController extends Controller
 		$request->validate([
 			'title' 	=> 'string|required',
 			'content' 	=> 'string|required',
-			'tags' 		=> 'string|nullable'
+			'tags' 		=> 'string|nullable',
+			'photo' 	=> 'image|required'
 		]);
+		// $path = Storage::putFile('articlePhoto', $request->file('photo'));
+		// dd($path);
 		$article = new Article;
 		$article->user_id = $request->user()->id;
 		$article->title = $request->input("title");
 		$article->content = $request->input("content");
+
+		 if($request->file('photo'))
+		 {
+			 $path = $request->file('photo')->store('public/app/articlePhoto');
+			 $article->image_address = $path;
+		 }
+
 		$article->save();
 		if ($request->tags) {
 			$tags = explode(',', $request->tags);
@@ -58,6 +69,7 @@ class ArticleController extends Controller
 
 	public function detail(Article $article)
 	{
+		// dd(asset(Storage::url($article->image_address)));
 		return view('article.detail',compact('article'));
 	}
 
@@ -73,9 +85,14 @@ class ArticleController extends Controller
 		$request->validate([
 			'title' 	=> 'string|required',
 			'content' 	=> 'string|required',
-			'tags' 		=> 'string|nullable'
+			'tags' 		=> 'string|nullable',
+			'photo' 	=> 'image|nullable'
 		]);
-
+		if($request->file('photo'))
+		{
+			$path = $request->file('photo')->store('public/app/articlePhoto');
+			$article->image_address = $path;
+		}
 		$article->user_id = $request->user()->id;
 		$article->title = $request->input("title");
 		$article->content = $request->input("content");
@@ -106,10 +123,12 @@ class ArticleController extends Controller
 
 	public function addComment(Article $article,Request $request)
 	{
+
 		$request->validate([
 			'body' => 'string|required|min:3',
 			'parent_id' =>'string|nullable'
 		]);
+		// $article->addComment($article,$request->user()->id,$request->body,$request->parent_id);
 		$comment = new Comment;
 		if($request->parent_id) $comment->parent_id = $request->parent_id;
 		$comment->article_id = $article->id;

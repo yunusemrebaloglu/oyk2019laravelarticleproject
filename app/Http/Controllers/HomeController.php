@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Weather;
+use App\Article;
 
 class HomeController extends Controller
 {
@@ -25,17 +26,10 @@ class HomeController extends Controller
 	public function index(Request $request)
 	{
 
-		$articles = $request->user()->articles;
-		// dd($articles);
+		$userIdsToShowArticles = $request->user()->followees->pluck('id')->toArray();
+		$userIdsToShowArticles[] = $request->user()->id;
+		$articles = Article::whereIn('user_id',$userIdsToShowArticles)->latest()->paginate(10);
 		return view('home', compact('articles'));
 	}
 
-	public function showWeather(Weather $owm)
-	{
-
-		$weather = $owm->getWeather('Bolu', 'metric', 'tr');
-
-		return $weather->temperature;
-
-	}
 }

@@ -26,12 +26,13 @@
 				</div>
 
 				<div class="card-body">
-					<form action="{{route('article.store')}}" method="post">
+					<form action="{{route('article.store')}}" method="post" enctype="multipart/form-data">
 						@csrf
 
 						<input type="text" name="title" class="form-control mt-2" placeholder="Title">
 						<textarea name="content" class="form-control mt-2" rows="8" cols="80" placeholder="Content"></textarea>
-						<input type="text" name="tags" placeholder="Lütfen etiketleri virgül ile ayırın." class="form-control mt-2">
+						<input type="text" name="tags" placeholder="Lütfen etiketleri virgül ile ayırın." class="form-control mt-2"><br>
+						<input type="file" name="photo" required placeholder="Görsel Yükleyin" class="form-control ">
 						<button type="submit" class="btn btn-primary form-control mt-2" name="button">Yolla</button>
 					</form>
 				</div>

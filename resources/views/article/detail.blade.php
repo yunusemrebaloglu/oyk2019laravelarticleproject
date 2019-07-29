@@ -16,14 +16,32 @@
 				</div>
 
 				<div class="card-body">
-					{{$article->id}}<br>
-					{{$article->title}}<br>
-					{{$article->content}}<br>
-					{{$article->updated_at}}<br>
-					{{$article->created_at}}<br>
+					<div class="row">
+						<div class="col-md-4">
+							<img src="{{asset(Storage::url($article->image_address))}}" alt="{{$article->title}}" width="100%">
+						</div>
+						<div class="col-md-6">
+							<h2>{{$article->title}}</h2>
+							<p>
+								{{$article->content}}
+							</p>
+						</div>
+						<div class="col-md-2">
+							<strong>
+								<label>
+									Güncelleme Tarihi :{{$article->updated_at}}
+								</label>
+								<label>
+									Yaratılma Tarihi :{{$article->created_at}}
+								</label>
+							</strong>
+
+						</div>
+					</div>
 					<hr>
 					@foreach($article->tags as $tag)
-					<a href="{{route('article.tagInArticles',$tag->id)}}">{{$tag->tag}}</a>
+					Tags:
+					<a href="{{route('article.tagInArticles',$tag->tag)}}">{{$tag->tag}}</a>
 					@endforeach
 				</div>
 				<br>
@@ -53,7 +71,7 @@
 					Yeni Yorum Ekle
 				</div>
 				<div class="card-body">
-					<form action="{{route('articles.addComment', $article->id)}}" method="post">
+					<form action="{{route('article.addComment', $article->id)}}" method="post">
 						@csrf
 						<textarea name="body" class="form-control mb-2" placeholder="Yeni Yorum "></textarea>
 						<button type="submit" class="form-control btn btn-primary" name="button"> Ekle</button>

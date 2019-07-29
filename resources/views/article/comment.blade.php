@@ -15,10 +15,10 @@
 yanıtla
 </a>
 <div class="collapse" id="collapse{{$comment->id}}">
-		<form action="{{route('articles.addComment', $article->id)}}" method="post">
+		<form action="{{route('article.addComment', $article->id)}}" method="post">
 			@csrf
 			<input type="hidden" name="parent_id" value="{{$comment->id}}">
-			<textarea name="body" class="form-control mb-2" placeholder="Yeni Yorum " rows="1"></textarea>
+			<textarea name="body" class="form-control mb-2" placeholder="Yeni Yorum " min="3" rows="1"></textarea>
 			<button type="submit" class="btn btn-primary" name="button"> Ekle</button>
 		</form>
 </div>

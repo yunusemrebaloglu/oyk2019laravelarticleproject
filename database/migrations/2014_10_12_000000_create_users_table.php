@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('name');
+            $table->string('profile_image')->default('public/app/profilePhoto/abXORm8LObucifNrUfkV2D4xCr95NRgI07sFSULk.jpeg');
             $table->string('email')->unique();
 			$table->date('birthday');
             $table->timestamp('email_verified_at')->nullable();
@@ -23,6 +24,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
         });
+
     }
 
     /**

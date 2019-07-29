@@ -48,11 +48,13 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+		// dd($data);
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'birthday' => ['required', 'date'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'profile_image' => ['nullable', 'image'],
         ]);
     }
 
@@ -64,11 +66,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+		if (isset($data['profile_image'])) $path = $data['profile_image']->store('public/app/profilePhoto');
+		$create = [
             'name' => $data['name'],
             'birthday' => $data['birthday'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
-        ]);
+        ];
+		if (isset($path)) $create['profile_image']=$path;
+        return User::create($create);
     }
 }
