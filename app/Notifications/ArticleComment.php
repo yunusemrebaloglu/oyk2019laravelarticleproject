@@ -6,8 +6,9 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
-use App\User;
 use App\Article;
+use App\Comment;
+use App\User;
 
 
 class ArticleComment extends Notification implements ShouldQueue
@@ -16,18 +17,18 @@ class ArticleComment extends Notification implements ShouldQueue
 	    use Queueable;
 
 	protected $article;
+	protected $comment;
 	protected $user;
-	protected $parent;
 	    /**
 	     * Create a new notification instance.
 	     *
 	     * @return void
 	     */
-	    public function __construct(Article $article, User $user, $parent = null)
+	    public function __construct(User $user,Article $article, Comment $comment)
 	    {
 	        $this->article = $article;
+	        $this->comment = $comment;
 	        $this->user = $user;
-	        $this->parent = $parent;
 	    }
 
 	    /**
@@ -63,14 +64,15 @@ class ArticleComment extends Notification implements ShouldQueue
 	     */
 	    public function toArray($notifiable)
 	    {
-			$return = ['action' => route('article.detail', $this->article)];
-			if ($this->parent != null) {
+			// dd(12121);
+			$return = [];
+			$return['action'] = route('article.detail', $this->article);
+			if ($this->comment->parent_id !== null) {
 
-				$return['message'] = $this->article->title.' başlığındaki yzıya yapmış olduğunız yoruma'.$this->user->name.'tarafından  yorum geldi';
+				$return['message'] = $this->article->title.' başlığındaki yzıya yapmış olduğunız yoruma'.$this->comment->user->name.'tarafından  yorum geldi';
 
 			}else {
-
-				$return['message'] = $this->article->title.'bu yazına yorum geldi'.$this->user->name.'tarafından';
+				$return['message'] = $this->article->title.'bu yazına yorum geldi'.$this->comment->user->name.'tarafından';
 			}
 
 

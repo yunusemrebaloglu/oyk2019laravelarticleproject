@@ -65,7 +65,7 @@ class ArticleController extends Controller
 			$article->tags()->sync($newtag);
 		}
 
-
+		$request->session()->flash('success', 'Yorumunuz Başarı ile eklendi');
 		return redirect(route('article.detail', $article));
 	}
 
@@ -132,11 +132,11 @@ class ArticleController extends Controller
 		]);
 		// $article->addComment($article,$request->user()->id,$request->body,$request->parent_id);
 		$comment = new Comment;
+		$comment->parent_id = null;
 		if($request->parent_id)
 		{
 			$comment->parent_id = $request->parent_id;
 		}
-
 		$comment->article_id = $article->id;
 		$comment->user_id = $request->user()->id;
 		$comment->body = $request->body;
