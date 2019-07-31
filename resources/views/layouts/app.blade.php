@@ -63,12 +63,12 @@
                                 </a>
 								@else
 								<a id="navbarDropdownnotification" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-									<img src="{{ URL::to('/') }}/dist/images/notificationNnon.svg" alt="" height="25px" width="25px">{{Auth::user()->unreadNotifications()->count()}}
+									<img src="{{ URL::to('/') }}/dist/images/notificationNnon.svg" alt="" height="25px" width="25px">
 								</a>
 								@endif
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownnotification">
-									@foreach(Auth::user()->notifications()->latest()->take(5)->get() as $notification)
+									@foreach(Auth::user()->notifications()->latest()->take(25)->get() as $notification)
 									<a class="dropdown-item @if(!$notification->read_at)  bg-info @endif" href="{{route('users.notification',$notification)}}">
 											{{$notification->data['message']}}
 									</a>

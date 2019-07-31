@@ -7,58 +7,72 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\User;
+use NotificationChannels\Telegram\TelegramChannel;
+use NotificationChannels\Telegram\TelegramMessage;
+
 
 class Followed extends Notification
 {
-    use Queueable;
+	use Queueable;
 	protected $user;
+	protected $fallowstatus;
 
-    /**
-     * Create a new notification instance.
-     *
-     * @return void
-     */
-    public function __construct(User $user)
-    {
-        $this->user = $user;
-    }
 
-    /**
-     * Get the notification's delivery channels.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function via($notifiable)
-    {
-        return ['database'];
-    }
+	/**
+	* Create a new notification instance.
+	*
+	* @return void
+	*/
+	public function __construct(User $user, $fallowstatus)
+	{
+		$this->user = $user;
+		$this->fallowstatus = $fallowstatus;
+	}
 
-    /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
+	/**
+	* Get the notification's delivery channels.
+	*
+	* @param  mixed  $notifiable
+	* @return array
+	*/
+	public function via($notifiable)
+	{
+		return ['database'];
+	}
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'message' => $this->user->name."sizi  takip etti",
+	/**
+	* Get the mail representation of the notification.
+	*
+	* @param  mixed  $notifiable
+	* @return \Illuminate\Notifications\Messages\MailMessage
+	*/
+	public function toMail($notifiable)
+	{
+		return (new MailMessage)
+		->line('The introduction to the notification.')
+		->action('Notification Action', url('/'))
+		->line('Thank you for using our application!');
+	}
+
+
+	public function toTelegram($notifiable)
+	{
+
+		return TelegramMessage::create()
+		->to("@ornekkimbilirbot") // Optional.
+		->content(" One of your invoices has been paid!"); // Markdown supported.
+	}
+	/**
+	* Get the array representation of the notification.
+	*
+	* @param  mixed  $notifiable
+	* @return array
+	*/
+	public function toArray($notifiable)
+	{
+		return [
+			'message' => $this->user->name."sizi ".$this->fallowstatus,
 			'action' => route('users.profile', $this->user)
-        ];
-    }
+		];
+	}
 }

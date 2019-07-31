@@ -66,12 +66,13 @@ class User extends Authenticatable
 
 	public function follow( User $user)
 	{
-		$user->notify(new Followed(request()->user()));
+		$user->notify(new Followed(request()->user(), "Takip Etti"));
 		return $this->followees()->attach($user);
 	}
 
 	public function unfollow(User $user)
 	{
+		$user->notify(new Followed(request()->user(), "Takipten Çıktı"));
 		return $this->followees()->detach($user);
 	}
 

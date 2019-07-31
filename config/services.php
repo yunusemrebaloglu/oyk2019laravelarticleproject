@@ -48,4 +48,7 @@ return [
 			'key' => env('OPEN_WEATHER_API_KEY')
 	],
 
+	'telegram-bot-api' => [
+	    'token' => env('TELEGRAM_BOT_TOKEN', '968474697:AAGF_pvqCD_9KiOqMKkIXmoMwfkDgw1KtZY')
+	],
 ];

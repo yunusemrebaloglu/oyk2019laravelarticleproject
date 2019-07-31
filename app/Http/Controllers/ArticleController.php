@@ -8,6 +8,8 @@ use App\Comment;
 use App\Tag;
 use App\Helpers\Mahmut ;
 use Illuminate\Support\Facades\Storage;
+use App\Notifications\ArticleComment;
+use App\Events\ArticleCommentCreated;
 
 
 class ArticleController extends Controller
@@ -41,11 +43,11 @@ class ArticleController extends Controller
 		$article->title = $request->input("title");
 		$article->content = $request->input("content");
 
-		 if($request->file('photo'))
-		 {
-			 $path = $request->file('photo')->store('public/app/articlePhoto');
-			 $article->image_address = $path;
-		 }
+		if($request->file('photo'))
+		{
+			$path = $request->file('photo')->store('public/app/articlePhoto');
+			$article->image_address = $path;
+		}
 
 		$article->save();
 		if ($request->tags) {
@@ -130,11 +132,17 @@ class ArticleController extends Controller
 		]);
 		// $article->addComment($article,$request->user()->id,$request->body,$request->parent_id);
 		$comment = new Comment;
-		if($request->parent_id) $comment->parent_id = $request->parent_id;
+		if($request->parent_id)
+		{
+			$comment->parent_id = $request->parent_id;
+		}
+
 		$comment->article_id = $article->id;
 		$comment->user_id = $request->user()->id;
 		$comment->body = $request->body;
 		$comment->save();
+		event(new ArticleCommentCreated($article, $comment));
+		// dd($article->user->id);
 		return redirect(route('article.detail', $article));
 	}
 	public function tagInArticles(Tag $tag)

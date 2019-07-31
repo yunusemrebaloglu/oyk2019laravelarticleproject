@@ -20,6 +20,11 @@ Route::get('/', 'ArticleController@index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/sitemap', function(){
+	\App\Jobs\GenerateSiteMap::dispatch();
+	return redirect(route('article.index'));
+})->name('GenerateSiteMap');
+
 
 
 Route::prefix('article')->middleware('auth')->name('article.')->group(function () {
@@ -63,7 +68,7 @@ Route::prefix('user')->middleware('auth')->name('users.')->group(function () {
 	Route::get('/profile/follower/{user}', 'UserController@follower')->name('follower');
 
 	Route::get('/profile/unfollower/{user}', 'UserController@unfollower')->name('unfollower');
-	
+
 	Route::get('/{user}/follow/{fallow}', 'UserController@followlist')->name('followList');
 
 
