@@ -14,34 +14,43 @@
 // Route::get('/', function () {
 //     return view('welcome');
 // });
+Route::view('spa','spa');
 Route::get('/', 'ArticleController@index');
 
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::get('/returntry', 'API\ArticleResourceController@index')->name('returntry');
+
+
+
 Route::get('/sitemap', function(){
 	\App\Jobs\GenerateSiteMap::dispatch();
 	return redirect(route('article.index'));
 })->name('GenerateSiteMap');
 
 
+Route::resource('article', 'ArticleController');
 
 Route::prefix('article')->middleware('auth')->name('article.')->group(function () {
 
-	Route::get('/new', 'ArticleController@create')->name('create');
 
-	Route::get('/', 'ArticleController@index')->name('index');
-
-	Route::post('/', 'ArticleController@store')->name('store');
-
-	Route::get('/{article}', 'ArticleController@detail')->name('detail');
-
-	Route::get('/edit/{article}', 'ArticleController@edit')->name('edit');
-
-	Route::put('/{article}', 'ArticleController@update')->name('update');
-
-	Route::delete('/{article}', 'ArticleController@destroy')->name('destroy');
+	// Route::get('/create', 'ArticleController@create')->name('create');
+	//
+	// Route::get('/', 'ArticleController@index')->name('index');
+	//
+	// Route::post('/', 'ArticleController@store')->name('store');
+	//
+	// Route::get('/{article}', 'ArticleController@show')->name('show');
+	//
+	// Route::get('/{article}/edit', 'ArticleController@edit')->name('edit');
+	//
+	// Route::put('/{article}', 'ArticleController@update')->name('update');
+	//
+	// Route::delete('/{article}', 'ArticleController@destroy')->name('destroy');
 
 	Route::post('/{article}/comments', 'ArticleController@addComment')->name('addComment');
 

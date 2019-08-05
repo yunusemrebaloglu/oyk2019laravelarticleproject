@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 // use Comment;
 class Article extends Model
 {
-	//
+
+	protected $appends = array('user');
+
+	public function getUserAttribute()
+	{
+		return $this->user()->first();
+	}
+
 	public function addComment($article,$userid,$comentBody,$parent_id = null){
 
 		// dd($article);
@@ -36,5 +43,11 @@ class Article extends Model
 	public function tags()
 	{
 		return $this->belongsToMany(Tag::class);
+	}
+	public function delete()
+	{
+		$this->comments()->delete();
+		$this->tags()->sync([]);
+		return parent::delete();
 	}
 }

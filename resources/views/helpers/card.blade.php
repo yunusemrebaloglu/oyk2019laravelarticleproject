@@ -2,10 +2,10 @@
 	<div class="row justify-content-around">
 		@foreach($articles as $article)
 		<div class="card bg-dark text-white m-2">
-			<a href="{{route('article.detail',$article)}}" style="background-image:url({{asset(Storage::url($article->image_address))}}); background-position: center; background-size: cover;height:200px;width:300px;">
+			<a href="{{route('article.show',$article)}}" style="background-image:url({{asset(Storage::url($article->image_address))}}); background-position: center; background-size: cover;height:200px;width:300px;">
 		    </a>
 		  <div class="card-img-overlay">
-			  <a href="{{route('article.detail',$article)}}">
+			  <a href="{{route('article.show',$article)}}">
 		    <h5 class="card-title">{{$article->title}}</h5>
 		</a>
 		    <p class="card-text">{{str_limit($article->content, $limit =100,$end = '...') }}</p>

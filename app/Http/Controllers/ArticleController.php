@@ -66,10 +66,10 @@ class ArticleController extends Controller
 		}
 
 		$request->session()->flash('success', 'Yorumunuz Başarı ile eklendi');
-		return redirect(route('article.detail', $article));
+		return redirect(route('article.show', $article));
 	}
 
-	public function detail(Article $article)
+	public function show(Article $article)
 	{
 		// dd(asset(Storage::url($article->image_address)));
 		return view('article.detail',compact('article'));
@@ -113,7 +113,7 @@ class ArticleController extends Controller
 		}
 		$article->tags()->sync($newtag);
 
-		return redirect(route('article.detail', $article));
+		return redirect(route('article.show', $article));
 	}
 
 	public function destroy(Article $article)
@@ -143,7 +143,7 @@ class ArticleController extends Controller
 		$comment->save();
 		event(new ArticleCommentCreated($article, $comment));
 		// dd($article->user->id);
-		return redirect(route('article.detail', $article));
+		return redirect(route('article.show', $article));
 	}
 	public function tagInArticles(Tag $tag)
 	{

@@ -42,7 +42,7 @@ class GenerateSiteMap implements ShouldQueue
 
 				foreach ($articles as $article)
 				{
-					$sitemap->add(route('article.detail',$article),$article->updated_at,'0.9','weekly');
+					$sitemap->add(route('article.show',$article),$article->updated_at,'0.9','weekly');
 				}
 
 				$users= Users::all();

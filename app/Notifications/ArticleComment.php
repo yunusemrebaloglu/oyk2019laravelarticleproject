@@ -66,7 +66,7 @@ class ArticleComment extends Notification implements ShouldQueue
 	    {
 			// dd(12121);
 			$return = [];
-			$return['action'] = route('article.detail', $this->article);
+			$return['action'] = route('article.show', $this->article);
 			if ($this->comment->parent_id !== null) {
 
 				$return['message'] = $this->article->title.' başlığındaki yzıya yapmış olduğunız yoruma'.$this->comment->user->name.'tarafından  yorum geldi';

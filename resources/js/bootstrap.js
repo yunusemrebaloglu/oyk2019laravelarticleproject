@@ -37,6 +37,16 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
+
+let apiBaseUrl = document.head.querySelectorSelector('meta[name="api-base-url"]');
+
+
+if (apiBaseUrl) {
+    window.axios.defaults.baseURL = apiBaseUrl.content;
+} else {
+    console.error('API Base URL not found');
+}
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
